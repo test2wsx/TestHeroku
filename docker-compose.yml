@@ -1,0 +1,20 @@
+services:
+    container_name: shiori-project
+    build: .
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - "../shioriProject/:/shioriProject/"
+    environment:
+      FLASK_CONFIG: development
+      FLASK_APP: run.py
+      SECRET_KEY: '5DgDZ{_B?&F&HC2Yys'
+      SQLALCHEMY_DATABASE_URI: 'mysql://shiori_admin:blabla@localhost/shiori_db'
+      MAIL_SERVER: smtp.googlemail.com
+      MAIL_PORT: 587
+      MAIL_USE_TLS: 1
+      MAIL_USERNAME: project.shiori2019@gmail.com
+      MAIL_PASSWORD: shiori#2019
+    restart: always
+    

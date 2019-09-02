@@ -1,0 +1,35 @@
+import flask
+import os
+from flask_mail import Mail, Message
+from flask import render_template
+from app import mail
+
+#class Mailer():
+#    def __init__(self):
+#        self.agent = Mail(flask.current_app)
+#
+#    def mail_settings(self):
+#        MAIL_SERVER='smtp.gmail.com',
+#        MAIL_PORT=587,
+#        MAIL_USE_TLS=True,
+#        MAIL_USE_SSL=False,
+#        MAIL_USERNAME=os.environ['EMAIL_USER'],
+#        MAIL_PASSWORD=os.environ['EMAIL_PASSWORD']
+#
+
+def send_email(subject, sender, recipients, text_body, html_body):
+        msg = Message(subject, sender=sender, recipients=recipients)
+        msg.body = text_body
+        msg.html = html_body
+        mail.send(msg)
+
+def send_password_reset_email(user):
+        token = user.get_reset_password_token()
+        send_email(subject='[ShiOri] Reset Your Password',
+                       sender=os.environ['MAIL_USERNAME'],
+                       recipients=[user.email],
+                                             text_body=render_template('email/reset_password.txt',
+                                                 user=user, token=token),
+                       html_body=render_template('email/reset_password.html',
+                                                 user=user, token=token))
+
